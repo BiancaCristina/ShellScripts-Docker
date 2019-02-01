@@ -1,3 +1,5 @@
+# Script desenvolvido por Bianca Cristina
+# O objetivo é realizar backups periódicos no Docker Algar
 #!/bin/bash
 USER1="lclaudio";
 USER2="nfi";
