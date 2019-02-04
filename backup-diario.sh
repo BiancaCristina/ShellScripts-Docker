@@ -8,6 +8,7 @@ USER2="nfi";
 
 SCRIPT="
 cd /var/teste; 
+sudo rm -rf *; 
 
 sudo docker commit -p 113d96881885 backup-dcim-`date +%d-%m-%Y`;
 sudo docker commit -p cba6abe91c50 backup-portalh-`date +%d-%m-%Y`;
@@ -32,8 +33,28 @@ read HOST2;
 # Pede senhas das VMs
 echo "Senha para lclaudio: ";
 read PASSWORD1;
+echo "Confirme a senha para lclaudio: "
+read PASSWORD_1;
+
+if [ $PASSWORD1 = $PASSWORD_1 ]; then
+	echo "Senha para lclaudio confere!"
+
+else
+	while [ $PASSWORD1 != $PASSWORD_1 ]
+		do
+			echo "Senhas diferentes. Por favor, digite a senha para lclaudio: "
+			read PASSWORD1;
+			echo "Confirme a senha para lclaudio: "
+			read PASSWORD_1;
+		done
+	
+	echo "Senha para lclaudio confere!"
+fi
+
 echo "Senha para nfi: ";
 read PASSWORD2;
+echo "Confirme a senha para nfi: "
+read PASSWORD_2;
 
 # Inicia o processo de backup
 echo "CONECTANDO...";
@@ -50,4 +71,3 @@ get backup-wiki-`date +%d-%m-%Y`.tar
 quit
 --EOF--
 ls -l ~/Backup/now;
-
