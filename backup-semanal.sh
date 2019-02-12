@@ -57,6 +57,21 @@ read PASSWORD2;
 echo "Confirme a senha para nfi: "
 read PASSWORD_2;
 
+if [ $PASSWORD2 = $PASSWORD_2 ]; then
+	echo "Senha para nfi confere!"
+
+else
+	while [ $PASSWORD2 != $PASSWORD_2 ]
+		do
+			echo "Senhas diferentes. Por favor, digite a senha para nfi: "
+			read PASSWORD2;
+			echo "Confirme a senha para nfi: "
+			read PASSWORD_2;
+		done
+	
+	echo "Senha para nfi confere!"
+fi
+
 # Inicia o processo de backup
 echo "CONECTANDO A lclaudio...";
 sshpass -p ${PASSWORD1} ssh -l ${USER1} ${HOST1} "${SCRIPT}";
@@ -76,3 +91,14 @@ quit
 
 ls -l ~/Backup/now;
 
+# Copia os arquivos para a nfi
+echo "COPIANDO OS ARQUIVOS PARA NFI...";
+lftp -u ${USER2},${PASSWORD2} sftp://${HOST2} << --EOF--
+cd /home/nfi/Bianca/Backup/
+put backup-dcim-`date +%d-%m-%Y`.tar
+put backup-mysql-`date +%d-%m-%Y`.tar
+put backup-portalh-`date +%d-%m-%Y`.tar
+put backup-wiki-`date +%d-%m-%Y`.tar
+ls -l /home/nfi/Bianca/Backup/; 
+quit
+--EOF--

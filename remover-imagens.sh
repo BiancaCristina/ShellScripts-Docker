@@ -8,6 +8,7 @@ USER2="nfi";
 TEMPO="4 weeks";
 SCRIPT="
 cd /var/teste;
+sudo docker images | grep ${TEMPO} | awk '{print $3}'
 sudo docker images | grep ${TEMPO} | awk '{print $3}' | xargs sudo docker rmi;
 exit
 "
@@ -16,8 +17,6 @@ echo "#### REMOCAO IMAGENS DOCKER ALGAR ####"
 # Pede o HOST do tipo user@host
 echo "Digite o host de lclaudio (10.X.X.X): "
 read HOST1; 
-echo "Digite o host de nfi (10.X.X.X): "
-read HOST2;
 
 # Pede senhas das VMs
 echo "Senha para lclaudio: ";
@@ -40,10 +39,6 @@ else
 	echo "Senha para lclaudio confere!"
 fi
 
-echo "Senha para nfi: ";
-read PASSWORD2;
-echo "Confirme a senha para nfi: "
-read PASSWORD_2;
 
 # Inicia o processo de remocao de imagens
 echo "CONECTANDO...";
